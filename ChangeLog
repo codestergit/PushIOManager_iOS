@@ -1,3 +1,6 @@
+* Tue January 09, 2018 - 6.33.1
+- Fixed bug where stopUpdatingLocationForPush did not stop location tracking.
+
 * Mon September 11, 2017 - 6.33.0
 - New log levels with improved console logging for different log levels.
 - No conflict/error with Reachability class, if Reachability used in application.

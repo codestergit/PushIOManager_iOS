@@ -4,6 +4,38 @@
 
 
 ## Release Notes
+
+### 6.33.1 Using location API
+
+#### Start location tracking
+
+SDK starts tracking location when `startUpdatingLocationForPush:` is called.
+**NOTE:** Application need to provide the correct values of `desiredLocationAccuracy` and `distanceFilter` before calling `startUpdatingLocationForPush:`. Otherwise it will result into more frequent registrations.
+
+```objective-c
+    [[PushIOManager sharedInstance] setDistanceFilter:500.0];
+    [[PushIOManager sharedInstance] setDesiredLocationAccuracy:100.0];
+    [[PushIOManager sharedInstance] startUpdatingLocationForPush];
+```
+
+#### Stop location tracking
+
+SDK stops tracking location when `stopUpdatingLocationForPush:` is called.
+
+```objective-c
+   [[PushIOManager sharedInstance] stopUpdatingLocationForPush];
+```
+
+#### Application provides location
+
+If application wants to track the location, it can pass the new location to SDK by calling `setLastLocation:`
+
+```objective-c
+    CLLocation *newLocation = nil;//Populate the corresponding values of new CLLocation instance
+    [[PushIOManager sharedInstance] setLastLocation:newLocation];
+```
+
+
 ### Upgrading PushIO SDK 6.29.2 to 6.32.0
 
 * **Supported iOS versions**: PushIO SDK 6.32.0 and later will support iOS 8.0 and later.
