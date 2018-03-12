@@ -349,6 +349,26 @@ typedef NSDictionary* (^PIOGlobalPropertiesBlock)(NSDictionary *event);
 
 
 /**
+ Defines the behavior when user interact with the hyperlink inside inApp message view.
+ Default is set to NO.
+ If set YES, pub-web hyperlinks are resolved and deeplink url, web url is notified to the application by notification boradcast to `PIORsysWebURLResolvedNotification`.
+ If set NO, user redirected to safari when s/he interact with hyper link.
+ */
+@property (nonatomic, assign) BOOL executeRsysWebURL;
+
+
+/**
+ Notification constant to notify the application with resolved pub web information.
+ */
+FOUNDATION_EXPORT NSString * const PIORsysWebURLResolvedNotification;
+
+FOUNDATION_EXPORT NSString * const PIOResolvedDeeplinkURL;
+FOUNDATION_EXPORT NSString * const PIOResolvedWeblinkURL;
+FOUNDATION_EXPORT NSString * const PIORequestedWebURL;
+FOUNDATION_EXPORT NSString * const PIOErrorResolveWebURL;
+FOUNDATION_EXPORT NSString * const PIORequestedWebURLIsPubWebType;
+
+/**
  Allows the application to specify an External Device Tracking ID.
  Stored in persistence storage.
  Set nil to remove the external device tracking identifier.
@@ -647,6 +667,25 @@ typedef NSDictionary* (^PIOGlobalPropertiesBlock)(NSDictionary *event);
                  completionHandler:(void (^)(void))completionHandler;
 
 
+/**
+ Method meant to be invoked from the application delegate's `handleActionWithIdentifier: forRemoteNotification: withResponseInfo: completionHandler:`. When the PushIOManager version is called, the userInfo push dictionary will be processed, an engagement will be triggered, and the completion handler called.
+ 
+ @param identifier        identifier.
+ @param userInfo          remote notification information.
+ @param responseInfo      notification response information.
+ @param completionHandler completionHandler.
+ */
+-(void) handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void (^)(void))completionHandler;
+
+
+/**
+ When application invoked from the URL and it want SDK to resove the URL.
+
+ @param userActivity containing userActivity information.
+ @param restorationHandler restorationHandler. NOTE: It's only used for SDK internal purpose. Application still need to call it to complete the userActicity.
+ */
+- (void)continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler;
+
 
 /**-----------------------------------------------------------------------------
  * @name Notification Preferences
@@ -881,6 +920,21 @@ typedef NSDictionary* (^PIOGlobalPropertiesBlock)(NSDictionary *event);
  */
 - (void)setOverrideAccountToken:(NSString *)overrideAccountToken __attribute__((deprecated));
 
+/**
+ Copy the value of `conversionUrl` from config.json, and pass it in this method. It's better to provide coversionURL as part of setup, it will avoid drop-reporting.
+
+ @param conversionURL URL value of `conversionUrl` from config.json.
+ */
+- (void)setConversionURL:(NSURL *)conversionURL;
+
+
+/**
+ Copy the value of `riAppId` from config.json, and pass it in this method. It's better to provide RIAppID as part of SDK setup, it will avoid drop-reporting.
+
+ @param riAppID RIAppID value of `riAppId` from config.json
+ */
+- (void)setRIAppID:(NSString *)riAppID;
+
 
 /**
  A unique ID used by SDK to configure the application.
@@ -961,8 +1015,6 @@ typedef NSDictionary* (^PIOGlobalPropertiesBlock)(NSDictionary *event);
  */
 @property (nonatomic, readonly) NSString *lastPushURLString;
 
-#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-
 
 /**-----------------------------------------------------------------------------
  * @name iOS10 Notification Methods
@@ -973,7 +1025,7 @@ typedef NSDictionary* (^PIOGlobalPropertiesBlock)(NSDictionary *event);
 /**
  Asks user permissions for provided notifications types i.e.: Sound/Badge/Alert types.
  If readyForRegistrationCompHandler is not set, then provided completionHandler is assigned to it, to let application have access when SDK receives deviceToken.
- 
+ NOTE: Need to call from iOS10+.
  @param authOptions Notification auth types i.e.: Sound/Badge/Alert
  @param categories Contains the notification categories definitions.
  @param completionHandler callback with response for notification permission prompt.
@@ -995,7 +1047,6 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void(^)())completionHandler;
 
 
-
 /**
  Must be called by UNUserNotificationDelegate's
  userNotificationCenter:willPresentNotification:withCompletionHandler.
@@ -1008,7 +1059,6 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler;
 
-#else
 
 /**
  Asks user to provide the permissions for provided notifications types i.e.: Sound/Badge/Alert types.
@@ -1029,7 +1079,6 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
  */
 -(void) didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
 
-#endif
 
 
 //MARK: Message Center Methods

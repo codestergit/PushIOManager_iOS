@@ -1,3 +1,8 @@
+* Mon March 12, 2018 - 6.35.0
+- Added the APIs for interactive notifications.
+- Added universal link resolver, and provided APIs for application to be notified with resolved information.
+- Added Deeplink Tracking support.
+
 * Tue January 09, 2018 - 6.33.1
 - Fixed bug where stopUpdatingLocationForPush did not stop location tracking.
 
