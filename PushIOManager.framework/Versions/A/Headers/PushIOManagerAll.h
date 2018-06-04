@@ -12,5 +12,6 @@
 #import "PIOMCMessage.h"
 #import "PushIOManager+PushIOLocation.h"
 #import "PIONotificationCategory.h"
+#import "PIONotificationCategories.h"
 
 #endif /* PushIOManagerAll_h */

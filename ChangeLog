@@ -1,3 +1,11 @@
+* Fri June 1, 2018 - 6.37.0
+- Messages are now pre-fetched and served from SDK when requested by application. For details: https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCFB/ios/
+- Fixed the crash when application failed to create NotificationAction in registration.
+- GDPR compliance changes.
+- SDK will NOT reset engagement-context internally. Application will need to reset engagement-context to stop attributing the conversion to last received push/email.
+- New APIs added to 1) Retrieve the engagement context 2) Reset engagement context.
+- New conversion type `purchase` supported.
+
 * Mon March 12, 2018 - 6.35.0
 - Added the APIs for interactive notifications.
 - Added universal link resolver, and provided APIs for application to be notified with resolved information.

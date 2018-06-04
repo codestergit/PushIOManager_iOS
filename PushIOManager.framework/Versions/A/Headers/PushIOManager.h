@@ -23,7 +23,7 @@ FOUNDATION_EXPORT NSString * const PIOMCRawResponseValue;
 FOUNDATION_EXPORT NSString * const PIOMCRequestURL;
 
 
-
+@class PIOMCMessage;
 /**-----------------------------------------------------------------------------
  * @name Metadata Handler APIs
  * -----------------------------------------------------------------------------
@@ -175,6 +175,7 @@ typedef enum {
     PUSHIO_ENGAGEMENT_METRIC_SOCIAL = 4,
     PUSHIO_ENGAGEMENT_METRIC_ACTION = 5, // Push IO internal use
     PUSHIO_ENGAGEMENT_METRIC_OTHER = 6, // Push IO internal use
+    PUSHIO_ENGAGEMENT_METRIC_PURCHASE = 7, // Push IO internal use
 }PushIOEngagementMetrics;
 
 
@@ -195,7 +196,9 @@ typedef NS_ENUM(NSInteger, PIOErrorCode) {
     PIOErrorCodeMaximumRetryReached,
     PIOErrorCodeInvalidURL,
     PIOErrorCodeInvalidPayload,
-    PIOErrorCodeEmptyResponse
+    PIOErrorCodeEmptyResponse,
+    PIOErrorCodePurchaseNotSupported,
+    PIOErrorCodeConversionInfoNotAvailable
 };
 
 
@@ -203,6 +206,7 @@ typedef NS_ENUM(NSInteger, PIOErrorCode) {
 
 FOUNDATION_EXPORT NSString * const PIOErrorDomainMCFailure;
 
+FOUNDATION_EXPORT NSString * const PIOErrorDomainHTTPFailure;
 
 /**
  Multiple Inbox error codes
@@ -235,6 +239,14 @@ typedef void (^PIOCompletionHandler)(NSError *error, NSString *response);
  */
 typedef void (^PIOMessageCenterCompletionHandler)(NSError *error, NSArray *messages);
 
+/**
+ Messages richcontent callback used to fetch the rich content for the application.
+ 
+ @param error       Placeholder to populate the error code/reason when operation completed.
+ @param messageID   Rich content requested message indentifier.
+ @param richContent Richcontent fetched from server.
+ */
+typedef void (^PIOMessageCenterRichcontentCompletionHandler)(NSError *error, NSString *messageID, NSString *richContent);
 
 /**
  Block (callback) to provide extra event properties at run time.
@@ -592,7 +604,17 @@ FOUNDATION_EXPORT NSString * const PIORequestedWebURLIsPubWebType;
  
  @param metric type of engagement to track i.e.: launch, active,iam,premium,social,action etc.
  */
-- (void)trackEngagementMetric:(PushIOEngagementMetrics)metric;
+- (void) trackEngagementMetric:(PushIOEngagementMetrics)metric;
+
+
+/**
+ Tracks the engagement for the provided engagement metric type with additional properties
+
+ @param metric Engagement metric.
+ @param properties Engagement metric properties.
+ @param completionHandler CompletionHandler.
+ */
+- (void) trackEngagementMetric:(PushIOEngagementMetrics)metric withProperties:(NSDictionary *)properties completionHandler:(PIOCompletionHandler)completionHandler;
 
 
 /**-----------------------------------------------------------------------------
@@ -1083,6 +1105,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 //MARK: Message Center Methods
 
+
 /**
  Fetch the list of Message Center messages for given MessageCenter name.
  
@@ -1093,8 +1116,55 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 
 /**
+ Fetch the rich content for the given message instance.
+
+ @param messageID of message to identify the rich content.
+ @param completionHandler Callback to notify when rich content fetch complete.
+ */
+-(void)fetchRichContentForMessage:(NSString *)messageID CompletionHandler:(PIOMessageCenterRichcontentCompletionHandler)completionHandler;
+
+/**
  Reset all SDK data. i.e.: DeviceID, UserId, Preferences.
  */
 -(void) resetAllData;
+
+
+/**
+ Reset all engagement information (to nil). No more engagement will be reported after calling this method until: either new push notification received or application is invoked from the email.
+ */
+-(void) resetEngagementContext;
+
+
+/**
+ Return the string value (date ISO 8601 format), recorded when engagement information fetched from server and stored locally.
+
+ @return String value of engagement date,time in ISO 8601 format. Return nil if no engagement information fetched or `resetEngagementContext()` called.
+ */
+-(NSString *) getEngagementTimeStamp;
+
+
+/**
+ 
+
+ @return double value of server returned max age value (when application invoked from email). Return -1 if no max age (from server) fetched or `resetEngagementContext()` called.
+ */
+-(double) getEngagementMaxAge;
+
+/**
+ Enable the fetch messages for all message center names from the server. Generally SDK fetches the updated messages when application starts, so `didFinishLaunchingWithOptions` is the correct place to call it.
+
+ @param enableMessageCenter boolean value to enable the messages fetch.
+ */
+-(void) setMessageCenterEnabled:(BOOL)enableMessageCenter;
+
+
+/**
+Returns the status of MessageCenter enabled.
+
+ @return YES if message center enabled, NO if not enabled. By default it's NO defined by SDK.
+ */
+-(BOOL) isMessageCenterEnabled;
+
+-(BOOL)isSDKConfigured;
 
 @end
