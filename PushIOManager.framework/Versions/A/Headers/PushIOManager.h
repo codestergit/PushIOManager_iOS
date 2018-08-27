@@ -1165,6 +1165,24 @@ Returns the status of MessageCenter enabled.
  */
 -(BOOL) isMessageCenterEnabled;
 
+
 -(BOOL)isSDKConfigured;
+
+
+/**
+ Enable the crah logging of PushIO sdk. It will not make and capture any crashes of apps. By default it is enable. You can set `NO` if you do not want PushIO sdk to collect crashes.
+ 
+ @param enableCrashLogging boolean value to enable the crash logging.
+ */
+- (void)setCrashLoggingEnabled:(BOOL)enableCrashLogging;
+
+
+/**
+ Check if crash logging is enabled for PushIO SDk. We capture only crashes related to sdk.
+ 
+ @return TRUE if crash logging is enabled for PushIO sdk, FALSe otherwise.
+ */
+- (BOOL)isCrashLoggingEnabled;
+
 
 @end
