@@ -1,3 +1,7 @@
+* Mon October 29, 2018 - 6.39.0
+- inApp messages are fetched at every application launch.
+- UIWebView is replaced by WKWebView.
+
 * Mon August 27, 2018 - 6.38.0
 - Added SDK crash reporting feature.
 - Added APIs to enable/disable the SDK crash reporting.

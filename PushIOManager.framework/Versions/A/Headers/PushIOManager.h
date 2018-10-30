@@ -1165,7 +1165,11 @@ Returns the status of MessageCenter enabled.
  */
 -(BOOL) isMessageCenterEnabled;
 
+/**
+ Tells about if the SDK is configured successfully.
 
+ @return Return TRUE if configured, FASLE otherwise.
+ */
 -(BOOL)isSDKConfigured;
 
 
@@ -1184,5 +1188,13 @@ Returns the status of MessageCenter enabled.
  */
 - (BOOL)isCrashLoggingEnabled;
 
+
+
+/**
+ Enable/Disable the in-app messages prefetch. If enabled, all the in-app messages are prefetch and stored in the SDK, and triggered from local storage. If disabled then in-app messages are not prefetched, so not available to be triggered for the event i.e.: $ExplicitAppOpen.
+
+ @param enableInAppFetch TRUE to enable in-App messages prefetch, FALSE to disable it.
+ */
+-(void) setInAppMessageFetchEnabled:(BOOL)enableInAppMessageFetch;
 
 @end
