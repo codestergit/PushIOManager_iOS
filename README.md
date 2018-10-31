@@ -1,6 +1,6 @@
 ## PushIOManager for iOS
 
-* [Integration Guide](http://docs.oracle.com/cloud/latest/marketingcs_gs/responsys.html)
+* [Integration Guide](https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCFB/)
 
 
 ## Release Notes
@@ -16,7 +16,7 @@ With the release of 6.39, we have introduced a new API to fetch In-App Messages 
 * **Redesigned In-app Backend**: For any new In-app implementation or upgrade to 6.39, we strongly recommend enabling the "Redesigned In-app Backend” feature both in the SDK and for your Account at Responsys.
 
 #### Add WebKit.Framework
-UIWebView is replaced with WKWebView in SDK 6.39.0. To use the inApp feature correctly, developer will need to add WebKit.framework in application.
+UIWebView is replaced with WKWebView in SDK 6.39.0. Please make sure to add WebKit.framework in your App target.
 
 
 ### 6.33.1 Using location API
