@@ -4,6 +4,20 @@
 
 
 ## Release Notes
+### Upgrading SDK to 6.39
+
+#### New API for In-App Messaging
+With the release of 6.39, we have introduced a new API to fetch In-App Messages at app launch. Once you turn-on this feature in Responsys Interact, you should use the below API to enable this feature in the SDK. 
+
+```objective-c
+[[PushIOManager sharedInstance] setInAppMessageFetchEnabled:YES];
+```
+##### Recommendation
+* **Redesigned In-app Backend**: For any new In-app implementation or upgrade to 6.39, we strongly recommend enabling the "Redesigned In-app Backend” feature both in the SDK and for your Account at Responsys.
+
+#### Add WebKit.Framework
+UIWebView is replaced with WKWebView in SDK 6.39.0. To use the inApp feature correctly, developer will need to add WebKit.framework in application.
+
 
 ### 6.33.1 Using location API
 
