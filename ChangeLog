@@ -1,3 +1,10 @@
+* Tue Feb 26, 2018 - 6.40.0
+- Added new APIs for maintaining sessions for push conversions.
+- Added APIs for tracking geofence and beacon events.
+- Added support for title text in push notifications.
+- Fixed an issue with In-App message where the fetched message was sometimes not displayed on event trigger.
+- Fixed an issue for Duplicate open events.
+
 * Mon October 29, 2018 - 6.39.0
 - inApp messages are fetched at every application launch.
 - UIWebView is replaced by WKWebView.
