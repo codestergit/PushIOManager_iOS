@@ -184,11 +184,8 @@ To integrate media notification follow the guide [Stand alone](http://docs.oracl
 * **Don't** add PIOMediaAttachmentExtension.framework into **embedded binaries**.
     - PIOMediaAttachmentExtension.framework shouldn't be added as embedded binary. Otherwise there will be compile time error as: 'bundle format unrecognized, invalid, or unsuitable'
 
-## Other Resources
-* [Downloads + Documenation] (http://docs.push.io)
-* [Sign In / Sign Up] (https://manage.push.io)
 
 ## Contact
 * Support: [My Oracle Support] (http://support.oracle.com)
 
-Copyright © 2016, Oracle Corporation and/or its affiliates. All rights reserved. Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.
+Copyright © 2019, Oracle Corporation and/or its affiliates. All rights reserved. Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.
