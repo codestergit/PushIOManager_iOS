@@ -1,6 +1,6 @@
 ## PushIOManager for iOS
 
-* [Integration Guide](https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCFB/)
+* [Integration Guide](https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCFB/ios/)
 
 
 ## Release Notes
